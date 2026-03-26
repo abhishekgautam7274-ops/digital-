@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Explore Bihar — International Travel Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--sand:#f5efe6;--clay:#c8733a;--deep:#1a1208;--warm:#8b5e3c;--leaf:#4a7c59;--gold:#d4a017;--muted:#6b5b4e;--white:#fffdf9}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--deep);overflow-x:hidden}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(255,253,249,0.93);backdrop-filter:blur(10px);border-bottom:1px solid rgba(200,115,58,0.15)}
+    .logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--clay)}
+    .logo span{color:var(--deep);font-style:italic}
+    nav ul{list-style:none;display:flex;gap:2rem}
+    nav ul li a{text-decoration:none;color:var(--muted);font-size:0.83rem;font-weight:500;transition:color 0.2s}
+    nav ul li a:hover{color:var(--clay)}
+    .nav-loc{font-size:0.76rem;color:var(--leaf);font-weight:500}
+    .hero{min-height:100vh;background:linear-gradient(160deg,#1a1208 0%,#3d2208 45%,#6a3a18 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(212,160,23,0.1) 0%,transparent 60%);pointer-events:none}
+    .hero-badge{display:inline-block;background:rgba(212,160,23,0.15);border:1px solid rgba(212,160,23,0.4);color:var(--gold);font-size:0.73rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:0.4rem 1.2rem;border-radius:100px;margin-bottom:1.8rem;animation:fadeUp 0.8s ease both}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,8vw,6rem);font-weight:700;color:var(--white);line-height:1.05;margin-bottom:1.2rem;animation:fadeUp 0.8s 0.15s ease both}
+    .hero h1 em{color:var(--clay);font-style:italic}
+    .hero p{max-width:560px;font-size:1rem;color:rgba(255,253,249,0.65);line-height:1.7;margin:0 auto 2rem;animation:fadeUp 0.8s 0.3s ease both}
+    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.8s 0.45s ease both}
+    .btn-primary{background:var(--clay);color:var(--white);padding:0.8rem 1.8rem;border-radius:8px;font-size:0.88rem;font-weight:500;text-decoration:none;transition:background 0.2s,transform 0.2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+    .btn-primary:hover{background:#b5622e;transform:translateY(-2px)}
+    .btn-outline{background:transparent;color:var(--white);padding:0.8rem 1.8rem;border-radius:8px;font-size:0.88rem;font-weight:500;text-decoration:none;border:1px solid rgba(255,253,249,0.3);transition:border-color 0.2s,transform 0.2s;cursor:pointer;font-family:'DM Sans',sans-serif}
+    .btn-outline:hover{border-color:var(--white);transform:translateY(-2px)}
+    .hero-stats{display:flex;gap:2.5rem;margin-top:4rem;animation:fadeUp 0.8s 0.6s ease both;flex-wrap:wrap;justify-content:center}
+    .stat{text-align:center}
+    .stat-num{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--gold)}
+    .stat-label{font-size:0.73rem;color:rgba(255,253,249,0.5);letter-spacing:0.4px}
+    .loc-banner{background:linear-gradient(90deg,var(--leaf),#2d5c3f);color:var(--white);padding:0.9rem 2rem;display:flex;align-items:center;justify-content:center;gap:1rem;font-size:0.86rem;flex-wrap:wrap;text-align:center}
+    .loc-pill{background:rgba(255,255,255,0.2);padding:0.22rem 0.75rem;border-radius:100px;font-size:0.78rem}
+    .search-section{padding:3rem 2rem;background:var(--sand);display:flex;flex-direction:column;align-items:center}
+    .search-section h2{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--deep);margin-bottom:1.2rem}
+    .search-bar{display:flex;max-width:740px;width:100%;background:var(--white);border-radius:12px;box-shadow:0 4px 24px rgba(26,18,8,0.08);overflow:hidden;border:1px solid rgba(200,115,58,0.2)}
+    .search-bar input{flex:1;padding:0.9rem 1.3rem;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:0.92rem;color:var(--deep);background:transparent}
+    .search-bar select{padding:0.9rem;border:none;border-left:1px solid rgba(200,115,58,0.15);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.86rem;outline:none;cursor:pointer}
+    .search-bar button{background:var(--clay);color:var(--white);border:none;padding:0.9rem 1.6rem;font-family:'DM Sans',sans-serif;font-size:0.86rem;font-weight:500;cursor:pointer;transition:background 0.2s}
+    .search-bar button:hover{background:#b5622e}
+    .filters{display:flex;gap:0.55rem;margin-top:1.1rem;flex-wrap:wrap;justify-content:center}
+    .filter-chip{padding:0.38rem 0.95rem;border-radius:100px;border:1px solid rgba(139,94,60,0.3);background:transparent;color:var(--warm);font-size:0.79rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+    .filter-chip:hover,.filter-chip.active{background:var(--clay);color:var(--white);border-color:var(--clay)}
+    .sort-bar{display:flex;gap:0.5rem;margin-top:0.8rem;align-items:center;font-size:0.8rem;color:var(--muted)}
+    .sort-bar button{padding:0.28rem 0.85rem;border-radius:100px;border:1px solid rgba(139,94,60,0.2);background:transparent;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--muted);transition:all 0.2s}
+    .sort-bar button.active,.sort-bar button:hover{background:var(--deep);color:var(--white);border-color:var(--deep)}
+    .nearest-strip{background:linear-gradient(90deg,#1a1208,#3d2208);padding:2rem 2rem;text-align:center}
+    .nearest-strip h3{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.2rem;margin-bottom:1rem}
+    .nearest-list{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap}
+    .near-pill{background:rgba(255,253,249,0.08);border:1px solid rgba(255,253,249,0.15);border-radius:10px;padding:0.7rem 1.2rem;color:var(--white);font-size:0.82rem;display:flex;align-items:center;gap:0.5rem;cursor:pointer;transition:background 0.2s}
+    .near-pill:hover{background:rgba(200,115,58,0.3);border-color:var(--clay)}
+    .near-dist{color:var(--gold);font-weight:600;font-size:0.79rem}
+    section{padding:4.5rem 2rem}
+    .section-label{font-size:0.72rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--clay);margin-bottom:0.5rem}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,4vw,2.5rem);font-weight:700;color:var(--deep);line-height:1.2;margin-bottom:0.7rem}
+    .section-sub{color:var(--muted);font-size:0.92rem;max-width:520px;line-height:1.7}
+    .section-head{margin-bottom:2.5rem}
+    .destinations{background:var(--white);max-width:1280px;margin:0 auto}
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1.5rem}
+    .card{border-radius:15px;overflow:hidden;background:var(--white);box-shadow:0 2px 14px rgba(26,18,8,0.07);transition:transform 0.3s,box-shadow 0.3s;cursor:pointer;position:relative}
+    .card:hover{transform:translateY(-5px);box-shadow:0 12px 36px rgba(26,18,8,0.13)}
+    .card-img{width:100%;height:185px;display:flex;align-items:center;justify-content:center;font-size:3.2rem;position:relative}
+    .card-img-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,18,8,0.55));height:60%}
+    .card-badges{position:absolute;top:0.8rem;left:0.8rem;display:flex;gap:0.35rem;flex-wrap:wrap}
+    .badge{font-size:0.66rem;font-weight:600;padding:0.2rem 0.55rem;border-radius:100px;letter-spacing:0.2px}
+    .bg-gold{background:var(--gold);color:var(--deep)}
+    .bg-leaf{background:var(--leaf);color:var(--white)}
+    .bg-clay{background:var(--clay);color:var(--white)}
+    .bg-blue{background:#2563eb;color:var(--white)}
+    .bg-purple{background:#7c3aed;color:var(--white)}
+    .card-dist{position:absolute;bottom:0.8rem;right:0.8rem;background:rgba(26,18,8,0.75);color:var(--white);font-size:0.7rem;font-weight:500;padding:0.2rem 0.6rem;border-radius:100px}
+    .card-num{position:absolute;top:0.8rem;right:0.8rem;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:rgba(255,253,249,0.7);line-height:1}
+    .card-body{padding:1.2rem}
+    .card-tag{font-size:0.69rem;font-weight:500;color:var(--clay);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.32rem}
+    .card h3{font-family:'Playfair Display',serif;font-size:1.12rem;color:var(--deep);margin-bottom:0.4rem}
+    .card p{font-size:0.82rem;color:var(--muted);line-height:1.6;margin-bottom:0.8rem}
+    .card-meta{display:flex;gap:0.7rem;font-size:0.74rem;color:var(--warm);flex-wrap:wrap}
+    .budget-section{background:var(--deep);color:var(--white)}
+    .budget-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .budget-section .section-label{color:var(--gold)}
+    .budget-section .section-title{color:var(--white)}
+    .budget-section .section-sub{color:rgba(255,253,249,0.6)}
+    .budget-cards{display:flex;flex-direction:column;gap:0.85rem}
+    .budget-card{background:rgba(255,253,249,0.05);border:1px solid rgba(255,253,249,0.1);border-radius:12px;padding:1.2rem;display:flex;gap:1.1rem;align-items:flex-start;transition:border-color 0.2s}
+    .budget-card:hover{border-color:rgba(212,160,23,0.4)}
+    .budget-icon{font-size:1.6rem;flex-shrink:0}
+    .budget-card h4{font-size:0.92rem;font-weight:500;margin-bottom:0.22rem;color:var(--white)}
+    .budget-card p{font-size:0.8rem;color:rgba(255,253,249,0.55);line-height:1.5}
+    .price-tag{margin-top:0.35rem;font-size:0.76rem;color:var(--gold);font-weight:500}
+    .hotels{background:var(--sand)}
+    .hotels-inner{max-width:1200px;margin:0 auto}
+    .hotel-list{display:flex;flex-direction:column;gap:0.9rem}
+    .hotel-item{background:var(--white);border-radius:13px;padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.4rem;box-shadow:0 2px 10px rgba(26,18,8,0.05);transition:transform 0.2s}
+    .hotel-item:hover{transform:translateX(4px)}
+    .hotel-emoji{font-size:1.9rem}
+    .hotel-info{flex:1}
+    .hotel-info h4{font-family:'Playfair Display',serif;font-size:1rem;color:var(--deep);margin-bottom:0.13rem}
+    .hotel-info p{font-size:0.8rem;color:var(--muted)}
+    .hotel-rating{display:flex;gap:0.12rem;margin-top:0.25rem}
+    .star{color:var(--gold);font-size:0.86rem}
+    .hotel-price{text-align:right}
+    .hotel-price .amount{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--clay)}
+    .hotel-price .per{font-size:0.71rem;color:var(--muted)}
+    .hotel-price .type{display:inline-block;margin-top:0.22rem;background:rgba(74,124,89,0.12);color:var(--leaf);font-size:0.68rem;font-weight:500;padding:0.16rem 0.5rem;border-radius:100px}
+    .tips{background:var(--white)}
+    .tips-inner{max-width:1100px;margin:0 auto}
+    .tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.3rem}
+    .tip-card{border:1px solid rgba(200,115,58,0.15);border-radius:13px;padding:1.6rem;transition:border-color 0.2s,box-shadow 0.2s}
+    .tip-card:hover{border-color:var(--clay);box-shadow:0 4px 18px rgba(200,115,58,0.1)}
+    .tip-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:rgba(200,115,58,0.15);line-height:1;margin-bottom:0.35rem}
+    .tip-card h4{font-size:0.92rem;font-weight:500;color:var(--deep);margin-bottom:0.4rem}
+    .tip-card p{font-size:0.81rem;color:var(--muted);line-height:1.6}
+    .map-section{background:var(--sand)}
+    .map-inner{max-width:1100px;margin:0 auto}
+    .map-container{width:100%;height:430px;border-radius:18px;overflow:hidden;position:relative;box-shadow:0 8px 36px rgba(26,18,8,0.12)}
+    .map-bg{position:absolute;inset:0;background:linear-gradient(170deg,#e8dcc8 0%,#c4b48a 100%)}
+    .map-pins{position:absolute;inset:0;pointer-events:none}
+    .pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;cursor:pointer;pointer-events:all;transition:transform 0.2s}
+    .pin:hover{transform:translate(-50%,-115%)}
+    .pin-dot{width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--clay);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(200,115,58,0.45)}
+    .pin-dot.user-pin{background:var(--leaf)}
+    .pin-inner{transform:rotate(45deg);font-size:0.85rem}
+    .pin-label{margin-top:4px;background:var(--deep);color:var(--white);font-size:0.68rem;padding:0.18rem 0.5rem;border-radius:4px;white-space:nowrap;opacity:0;transition:opacity 0.2s}
+    .pin:hover .pin-label{opacity:1}
+    .pin.you-pin .pin-label{opacity:1;background:var(--leaf)}
+    .map-legend{position:absolute;bottom:1rem;left:1rem;background:rgba(255,253,249,0.9);padding:0.7rem 1rem;border-radius:9px;font-size:0.76rem;color:var(--deep)}
+    .map-legend div{display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem}
+    .dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+    footer{background:var(--deep);color:rgba(255,253,249,0.5);padding:2.5rem 2rem;text-align:center}
+    footer .footer-logo{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--clay);margin-bottom:0.6rem}
+    footer p{font-size:0.81rem;line-height:1.7;max-width:460px;margin:0 auto 1.3rem}
+    footer .footer-links{display:flex;gap:1.6rem;justify-content:center;flex-wrap:wrap}
+    footer .footer-links a{color:rgba(255,253,249,0.4);text-decoration:none;font-size:0.78rem;transition:color 0.2s}
+    footer .footer-links a:hover{color:var(--clay)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:768px){nav{padding:0.9rem 1.2rem}nav ul{display:none}.hero-stats{gap:1.2rem}.budget-inner{grid-template-columns:1fr;gap:2rem}.hotel-item{flex-direction:column;align-items:flex-start}.hotel-price{text-align:left}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Explore <span>Bihar</span></div>
+  <ul>
+    <li><a href="#destinations">Top 20</a></li>
+    <li><a href="#budget">Budget</a></li>
+    <li><a href="#hotels">Hotels</a></li>
+    <li><a href="#tips">Tips</a></li>
+    <li><a href="#map">Map</a></li>
+  </ul>
+  <div class="nav-loc" id="navLoc">📍 Detecting location…</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🌏 Free International Travel Guide · Bihar, India</div>
+  <h1>Discover the Ancient<br>Soul of <em>Bihar</em></h1>
+  <p>20 must-visit destinations for international tourists — with real distances from your location, budget tips, and hotel recommendations.</p>
+  <div class="hero-cta">
+    <a href="#destinations" class="btn-primary">Explore 20 Destinations</a>
+    <a href="#budget" class="btn-outline">Budget Travel Guide</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">20</div><div class="stat-label">Top Destinations</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">UNESCO World Sites</div></div>
+    <div class="stat"><div class="stat-num">₹500</div><div class="stat-label">Budget/Day Possible</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Free Guide</div></div>
+  </div>
+</section>
+
+<div class="loc-banner">
+  <span>📍 <strong>Your Location:</strong> <span id="locName">Detecting…</span></span>
+  <span class="loc-pill" id="locDetail">Allow location access for distances from you</span>
+</div>
+
+<div class="search-section">
+  <h2>Find Your Perfect Destination</h2>
+  <div class="search-bar">
+    <input type="text" placeholder="Search places, temples, history, nature, yoga…" id="searchInput" oninput="filterCards()"/>
+    <select id="categorySelect" onchange="filterCards()">
+      <option value="">All Types</option>
+      <option value="historical">Historical</option>
+      <option value="spiritual">Spiritual</option>
+      <option value="nature">Nature</option>
+      <option value="cultural">Cultural</option>
+      <option value="yoga">Wellness</option>
+    </select>
+    <button onclick="filterCards()">Search</button>
+  </div>
+  <div class="filters">
+    <button class="filter-chip active" onclick="setFilter(this,'')">All 20</button>
+    <button class="filter-chip" onclick="setFilter(this,'historical')">🏛️ Historical</button>
+    <button class="filter-chip" onclick="setFilter(this,'spiritual')">🪔 Spiritual</button>
+    <button class="filter-chip" onclick="setFilter(this,'nature')">🌿 Nature</button>
+    <button class="filter-chip" onclick="setFilter(this,'cultural')">🎭 Cultural</button>
+    <button class="filter-chip" onclick="setFilter(this,'yoga')">🧘 Wellness</button>
+    <button class="filter-chip" onclick="setFilter(this,'unesco')">🏆 UNESCO</button>
+  </div>
+  <div class="sort-bar">
+    <span>Sort:</span>
+    <button class="active" onclick="sortCards('rank',this)">Top Ranked</button>
+    <button onclick="sortCards('distance',this)">📍 Nearest to Me</button>
+    <button onclick="sortCards('budget',this)">💰 Cheapest First</button>
+  </div>
+</div>
+
+<div class="nearest-strip" id="nearestStrip" style="display:none">
+  <h3>📍 Nearest Destinations From Your Location</h3>
+  <div class="nearest-list" id="nearestList"></div>
+</div>
+
+<section id="destinations">
+<div class="destinations">
+  <div class="section-head">
+    <div class="section-label">Top 20 Picks for International Tourists</div>
+    <h2 class="section-title">Bihar's Greatest Destinations</h2>
+    <p class="section-sub">From UNESCO World Heritage Sites to sacred Buddhist trails and Jain pilgrimages — all with distances from your location.</p>
+  </div>
+  <div class="cards-grid" id="cardsGrid"></div>
+  <p id="noResults" style="display:none;color:var(--muted);margin-top:2rem;font-style:italic;text-align:center;">No destinations found. Try a different search.</p>
+</div>
+</section>
+
+<section id="budget" class="budget-section">
+  <div class="budget-inner">
+    <div>
+      <div class="section-label">Travel Smart</div>
+      <h2 class="section-title">How to Explore Bihar on a Budget</h2>
+      <p class="section-sub">Bihar is one of India's most affordable states. International travellers can explore everything for ₹1,500–₹2,500 per day including accommodation and food.</p>
+      <br/>
+      <a href="#tips" class="btn-primary" style="display:inline-block;margin-top:1rem;">All Travel Tips →</a>
+    </div>
+    <div class="budget-cards">
+      <div class="budget-card"><div class="budget-icon">✈️</div><div><h4>Fly into Gaya or Patna</h4><p>Gaya Airport has international Buddhist Circuit flights from Bangkok, Colombo & Rangoon. Patna connects to all major Indian cities.</p><div class="price-tag">Gaya → Bodh Gaya: 12 km taxi ≈ ₹200</div></div></div>
+      <div class="budget-card"><div class="budget-icon">🚂</div><div><h4>Travel by Train</h4><p>Bihar's rail network is excellent and very affordable. Sleeper class connects all major destinations. Book on IRCTC 2–3 weeks ahead.</p><div class="price-tag">Patna → Bodh Gaya ≈ ₹80–₹150</div></div></div>
+      <div class="budget-card"><div class="budget-icon">🍽️</div><div><h4>Eat at Local Dhabas</h4><p>Litti Chokha, Sattu Paratha, Thekua — authentic Bihari street food is delicious and costs a fraction of restaurant prices.</p><div class="price-tag">Full dhaba meal ≈ ₹40–₹80</div></div></div>
+      <div class="budget-card"><div class="budget-icon">🛕</div><div><h4>Monastery Stays in Bodh Gaya</h4><p>Thai, Japanese, Tibetan and Bhutanese monasteries offer very affordable rooms to pilgrims and travellers.</p><div class="price-tag">₹100–₹300 per night at dharamshalas</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="hotels" class="hotels">
+  <div class="hotels-inner">
+    <div class="section-head">
+      <div class="section-label">Where to Stay</div>
+      <h2 class="section-title">Best Hotels Across Bihar</h2>
+      <p class="section-sub">From international-standard hotels to budget guesthouses — for every type of traveller.</p>
+    </div>
+    <div class="hotel-list">
+      <div class="hotel-item"><div class="hotel-emoji">🏨</div><div class="hotel-info"><h4>Mahayana Guest House, Bodh Gaya</h4><p>Walking distance from Mahabodhi Temple. Clean rooms, popular with international Buddhist pilgrims from Asia.</p><div class="hotel-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span></div></div><div class="hotel-price"><div class="amount">₹700</div><div class="per">per night</div><div class="type">Budget</div></div></div>
+      <div class="hotel-item"><div class="hotel-emoji">🏰</div><div class="hotel-info"><h4>Hotel Chanakya, Patna</h4><p>Best-value mid-range hotel in Patna near Patna Junction. Great base for day trips to all Bihar destinations.</p><div class="hotel-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span></div></div><div class="hotel-price"><div class="amount">₹900</div><div class="per">per night</div><div class="type">Mid-Range</div></div></div>
+      <div class="hotel-item"><div class="hotel-emoji">⛩️</div><div class="hotel-info"><h4>Royal Thai Monastery, Bodh Gaya</h4><p>Monastery-run guesthouse with peaceful atmosphere. Very popular with backpackers and spiritual travellers.</p><div class="hotel-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span><span class="star" style="color:#ccc">★</span></div></div><div class="hotel-price"><div class="amount">₹200</div><div class="per">per night</div><div class="type">Backpacker</div></div></div>
+      <div class="hotel-item"><div class="hotel-emoji">🌿</div><div class="hotel-info"><h4>Hotel Nalanda Regency, Nalanda</h4><p>Steps from the ancient ruins. Comfortable rooms, good Wi-Fi and helpful staff for tourist guidance.</p><div class="hotel-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span></div></div><div class="hotel-price"><div class="amount">₹800</div><div class="per">per night</div><div class="type">Mid-Range</div></div></div>
+      <div class="hotel-item"><div class="hotel-emoji">🧘</div><div class="hotel-info"><h4>Bihar Yoga Bharati Campus, Munger</h4><p>Stay at the world-famous yoga school. Includes meals and yoga sessions. Perfect for wellness travellers.</p><div class="hotel-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div></div><div class="hotel-price"><div class="amount">₹1,200</div><div class="per">per night</div><div class="type">Wellness</div></div></div>
+      <div class="hotel-item"><div class="hotel-emoji">🏔️</div><div class="hotel-info"><h4>Rajgir Residency, Rajgir</h4><p>Hill views, near hot springs and the glass cable car. Clean and comfortable for 1–2 night stays.</p><div class="hotel-rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:#ccc">★</span></div></div><div class="hotel-price"><div class="amount">₹1,000</div><div class="per">per night</div><div class="type">Comfortable</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tips" class="tips">
+  <div class="tips-inner">
+    <div class="section-head">
+      <div class="section-label">For International Travellers</div>
+      <h2 class="section-title">Essential Bihar Travel Tips</h2>
+      <p class="section-sub">Everything international tourists need to know before visiting Bihar.</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card"><div class="tip-num">01</div><h4>Best Time to Visit</h4><p>October–March is ideal. Cool, dry weather perfect for sightseeing. Avoid May–July (40°C+ heat). Chhath Puja in Oct/Nov is an unmissable spectacle.</p></div>
+      <div class="tip-card"><div class="tip-num">02</div><h4>India e-Visa</h4><p>Most nationalities can get an India e-Visa at indianvisaonline.gov.in. Apply 4+ days before travel. Cost approx. $25–$80 USD depending on nationality.</p></div>
+      <div class="tip-card"><div class="tip-num">03</div><h4>Entry Point — Gaya or Patna</h4><p>Gaya Airport has direct Buddhist Circuit flights from Bangkok, Colombo & Rangoon. Patna has flights from Delhi, Mumbai, Kolkata. Both have trains to all destinations.</p></div>
+      <div class="tip-card"><div class="tip-num">04</div><h4>Get a Local SIM</h4><p>Buy Airtel or Jio SIM at the airport with your passport. ₹299 gives 1.5GB/day for 28 days — essential for Google Maps and booking trains on IRCTC.</p></div>
+      <div class="tip-card"><div class="tip-num">05</div><h4>Currency & Cash</h4><p>Indian Rupee (INR). ATMs in cities. Carry cash for rural areas — dhabas and village markets are cash-only. $1 USD ≈ ₹83. Card accepted at hotels.</p></div>
+      <div class="tip-card"><div class="tip-num">06</div><h4>Buddhist Circuit Tour</h4><p>Bihar Tourism offers guided packages covering Bodh Gaya, Nalanda, Rajgir, Vaishali and Kesaria — perfect for first-time international visitors.</p></div>
+      <div class="tip-card"><div class="tip-num">07</div><h4>Dress Modestly</h4><p>Cover shoulders and knees at temples and monasteries. Remove shoes at all religious sites. Ask before photographing worshippers or ceremonies.</p></div>
+      <div class="tip-card"><div class="tip-num">08</div><h4>Try the Food</h4><p>Litti Chokha is Bihar's iconic dish. Also try Sattu drink, Thekua sweets, and Khaja. Street food near temples is cheapest and most authentic.</p></div>
+      <div class="tip-card"><div class="tip-num">09</div><h4>Use Ola/Rapido</h4><p>App-based cabs are safe, metered and English-friendly in Patna and Gaya. For inter-city travel, trains are best — book 2–3 weeks ahead on IRCTC.</p></div>
+      <div class="tip-card"><div class="tip-num">10</div><h4>Language Tips</h4><p>Hindi is the main language. English is spoken at hotels, airports and tourist sites. In villages, Google Translate offline mode works well. Download Hindi pack.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="map" class="map-section">
+  <div class="map-inner">
+    <div class="section-head">
+      <div class="section-label">Navigation</div>
+      <h2 class="section-title">All 20 Destinations on the Map</h2>
+      <p class="section-sub">All destinations pinned across Bihar. Your location shown in green. Hover over pins to see destination names.</p>
+    </div>
+    <div class="map-container">
+      <div class="map-bg">
+        <svg style="width:100%;height:100%;opacity:0.13" viewBox="0 0 900 430">
+          <path d="M0,215 Q225,185 450,205 Q675,225 900,205" stroke="#8b5e3c" stroke-width="3" fill="none"/>
+          <path d="M220,0 Q240,155 260,430" stroke="#8b5e3c" stroke-width="2" fill="none"/>
+          <path d="M450,0 Q470,155 430,430" stroke="#8b5e3c" stroke-width="2" fill="none"/>
+          <path d="M680,0 Q700,155 670,430" stroke="#8b5e3c" stroke-width="2" fill="none"/>
+          <circle cx="450" cy="215" r="170" stroke="#8b5e3c" stroke-width="1" fill="none" stroke-dasharray="7,4"/>
+          <circle cx="450" cy="215" r="290" stroke="#8b5e3c" stroke-width="1" fill="none" stroke-dasharray="4,8"/>
+        </svg>
+      </div>
+      <div class="map-pins" id="mapPins"></div>
+      <div class="map-legend">
+        <div><span class="dot" style="background:var(--clay)"></span> Destinations (20)</div>
+        <div><span class="dot" style="background:var(--leaf)"></span> Your Location</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Explore <em style="font-style:italic">Bihar</em></div>
+  <p>A free, complete international travel guide to Bihar's top 20 destinations. Budget-friendly, honest, and built for travellers from around the world.</p>
+  <div class="footer-links">
+    <a href="#destinations">20 Destinations</a>
+    <a href="#budget">Budget Tips</a>
+    <a href="#hotels">Hotels</a>
+    <a href="#tips">Travel Tips</a>
+    <a href="#map">Map</a>
+  </div>
+  <p style="margin-top:1.8rem;font-size:0.72rem;">Made with ❤️ for every traveller visiting Bihar · 100% Free Forever</p>
+</footer>
+
+<script>
+const destinations = [
+  {rank:1,name:"Bodh Gaya",tag:"Spiritual · UNESCO",cat:"spiritual unesco",emoji:"🪷",bg:"linear-gradient(135deg,#4a7c59,#2d5c3f)",desc:"Where Lord Buddha attained enlightenment. The Mahabodhi Temple is a UNESCO World Heritage Site and the holiest place in Buddhism, drawing millions from 100+ countries each year.",loc:"Gaya District",entry:"Temple free · Museum ₹10",travel:"2hr from Patna",budget:2,lat:24.6961,lng:84.9914,ml:"32%",mt:"68%",badges:[{t:"#1 Must-See",c:"bg-leaf"},{t:"UNESCO",c:"bg-gold"}]},
+  {rank:2,name:"Nalanda University Ruins",tag:"Historical · UNESCO",cat:"historical unesco",emoji:"🏛️",bg:"linear-gradient(135deg,#8b5e3c,#c8733a)",desc:"The world's oldest university (3rd century BC). Explore excavated monasteries, the Nalanda Museum, and the ancient library complex that once held 9 million manuscripts.",loc:"Nalanda District",entry:"₹35 Indians · ₹600 Foreign",travel:"90km from Patna",budget:2,lat:25.1356,lng:85.4444,ml:"52%",mt:"54%",badges:[{t:"UNESCO",c:"bg-gold"},{t:"Oldest Uni",c:"bg-clay"}]},
+  {rank:3,name:"Patna — Capital City",tag:"Cultural · City Hub",cat:"cultural historical",emoji:"🌆",bg:"linear-gradient(135deg,#d4a017,#a87a10)",desc:"One of the world's oldest continuously inhabited cities. Visit Golghar, Patna Museum, the Bihar Museum, Mahavir Mandir, and the Ganga ghats. The main travel hub for all of Bihar.",loc:"Patna District",entry:"Museum ₹50–₹150",travel:"Airport & Rail Hub",budget:3,lat:25.5941,lng:85.1376,ml:"43%",mt:"40%",badges:[{t:"Capital City",c:"bg-blue"},{t:"Travel Hub",c:"bg-clay"}]},
+  {rank:4,name:"Rajgir",tag:"Historical · Nature",cat:"historical nature spiritual",emoji:"🏔️",bg:"linear-gradient(135deg,#3d2208,#7a4520)",desc:"Ancient capital of the Magadha empire. Ride the glass cable car to Vishwa Shanti Stupa, soak in natural hot springs, and see Vulture's Peak where Buddha gave famous sermons.",loc:"Nalanda District",entry:"₹100 ropeway · ₹30 hot springs",travel:"100km from Patna",budget:2,lat:25.0253,lng:85.4189,ml:"50%",mt:"60%",badges:[{t:"Ancient Capital",c:"bg-clay"},{t:"Hot Springs",c:"bg-leaf"}]},
+  {rank:5,name:"Vaishali",tag:"Historical · Buddhist",cat:"historical spiritual",emoji:"🕊️",bg:"linear-gradient(135deg,#6b5b4e,#4a3828)",desc:"Birthplace of Lord Mahavira and home of one of the world's first republics (6th century BC). See the Ashoka Lion Pillar, ancient stupas, and the Lichchhavi Coronation Tank.",loc:"Vaishali District",entry:"Free entry",travel:"55km from Patna",budget:1,lat:25.6878,lng:85.1313,ml:"42%",mt:"30%",badges:[{t:"Free Entry",c:"bg-leaf"},{t:"World's 1st Republic",c:"bg-clay"}]},
+  {rank:6,name:"Valmiki National Park",tag:"Nature · Wildlife",cat:"nature",emoji:"🐯",bg:"linear-gradient(135deg,#2d5c3f,#4a7c59)",desc:"Bihar's only tiger reserve on the Nepal border. Home to Bengal tigers, Asian elephants, leopards and 300+ bird species. Best Nov–April for wildlife sightings.",loc:"West Champaran",entry:"₹150 Indians · ₹500 Foreign",travel:"300km from Patna",budget:3,lat:27.2940,lng:84.0268,ml:"18%",mt:"12%",badges:[{t:"Tiger Reserve",c:"bg-leaf"},{t:"Nepal Border",c:"bg-clay"}]},
+  {rank:7,name:"Pawapuri — Jal Mandir",tag:"Jain Pilgrimage",cat:"spiritual",emoji:"🛕",bg:"linear-gradient(135deg,#c8733a,#a06030)",desc:"The sacred site where Lord Mahavira attained nirvana. The stunning white marble Jal Mandir sits in the middle of a lotus pond — a must-see for Jain pilgrims worldwide.",loc:"Nalanda District",entry:"Free entry",travel:"38km from Patna",budget:1,lat:25.2025,lng:85.5322,ml:"54%",mt:"50%",badges:[{t:"Free Entry",c:"bg-leaf"},{t:"Jain Pilgrimage",c:"bg-clay"}]},
+  {rank:8,name:"Vikramshila University",tag:"Historical · Buddhist",cat:"historical",emoji:"📚",bg:"linear-gradient(135deg,#4a3828,#6b5b4e)",desc:"Ruins of the 8th-century Buddhist university founded by King Dharmapala. A peaceful, less-crowded alternative to Nalanda with a great museum and the Ganga flowing nearby.",loc:"Bhagalpur District",entry:"₹25 Indians · ₹300 Foreign",travel:"250km from Patna",budget:2,lat:25.3100,lng:87.2500,ml:"82%",mt:"46%",badges:[{t:"8th Century AD",c:"bg-clay"}]},
+  {rank:9,name:"Munger — Yoga City",tag:"Wellness · Cultural",cat:"yoga cultural",emoji:"🧘",bg:"linear-gradient(135deg,#2d4a6e,#1a2d42)",desc:"Home of the world-famous Bihar School of Yoga, attracting international visitors globally. Also features beautiful Ganga ghats, Mir Kasim fort ruins, and vibrant culture.",loc:"Munger District",entry:"Yoga courses from ₹500/day",travel:"180km from Patna",budget:3,lat:25.3706,lng:86.4736,ml:"70%",mt:"42%",badges:[{t:"Yoga Capital",c:"bg-blue"},{t:"International Ashrams",c:"bg-leaf"}]},
+  {rank:10,name:"Kesaria Stupa",tag:"Buddhist · Historical",cat:"historical spiritual",emoji:"⛩️",bg:"linear-gradient(135deg,#5a4a3c,#8b6a50)",desc:"One of the world's largest Buddhist stupas, built by King Ashoka. The site where Lord Buddha reportedly gave away his begging bowl before his final journey northward.",loc:"East Champaran",entry:"Free entry",travel:"110km from Patna",budget:1,lat:26.3040,lng:84.8682,ml:"35%",mt:"20%",badges:[{t:"Free Entry",c:"bg-leaf"},{t:"World's Largest Stupa",c:"bg-clay"}]},
+  {rank:11,name:"Madhubani — Art City",tag:"Cultural · Folk Art",cat:"cultural",emoji:"🎨",bg:"linear-gradient(135deg,#8b2252,#c43a7a)",desc:"Famous worldwide for Madhubani paintings — intricate folk art with 2,500-year history. Visit artists in their villages, buy authentic paintings, and see the Mithila Art Gallery.",loc:"Madhubani District",entry:"Gallery ₹20 · Village visits free",travel:"160km from Patna",budget:2,lat:26.3602,lng:86.0715,ml:"65%",mt:"18%",badges:[{t:"World-Famous Art",c:"bg-blue"}]},
+  {rank:12,name:"Sitamarhi — Birthplace of Sita",tag:"Hindu Pilgrimage",cat:"spiritual",emoji:"🌸",bg:"linear-gradient(135deg,#7c3aed,#5b2db3)",desc:"The birthplace of Goddess Sita, wife of Lord Ram, on the Ramayana Circuit. Visit Punaura Dham, Janki Mandir, and Sita Kund — a deeply sacred Hindu pilgrimage site.",loc:"Sitamarhi District",entry:"Free entry",travel:"160km from Patna",budget:1,lat:26.5921,lng:85.4900,ml:"47%",mt:"14%",badges:[{t:"Free Entry",c:"bg-leaf"},{t:"Ramayana Circuit",c:"bg-blue"}]},
+  {rank:13,name:"Barabar Caves",tag:"Historical · Ancient",cat:"historical",emoji:"🪨",bg:"linear-gradient(135deg,#3a3a2a,#5a5a3c)",desc:"India's oldest surviving rock-cut caves (3rd century BC) by Emperor Ashoka. These caves inspired E.M. Forster's 'A Passage to India'. Hauntingly beautiful granite interiors.",loc:"Jehanabad District",entry:"₹25 Indians · ₹300 Foreign",travel:"80km from Patna",budget:2,lat:25.0020,lng:85.0630,ml:"40%",mt:"62%",badges:[{t:"3rd Century BC",c:"bg-clay"},{t:"Ashoka Era",c:"bg-gold"}]},
+  {rank:14,name:"Rohtasgarh Fort",tag:"Historical · Trekking",cat:"historical nature",emoji:"🏰",bg:"linear-gradient(135deg,#5a3a1a,#8b6a3a)",desc:"A magnificent medieval hill fort at 1,500 feet offering panoramic Kaimur range views. One of India's most impressive and underrated forts — great for history lovers and trekkers.",loc:"Rohtas District",entry:"₹25 Indians · ₹300 Foreign",travel:"180km from Patna",budget:2,lat:24.5800,lng:83.8830,ml:"15%",mt:"74%",badges:[{t:"Medieval Fort",c:"bg-clay"},{t:"Trekking",c:"bg-leaf"}]},
+  {rank:15,name:"Tomb of Sher Shah Suri",tag:"Historical · Architecture",cat:"historical",emoji:"🕌",bg:"linear-gradient(135deg,#2a3a5a,#3a5a8a)",desc:"A stunning 16th-century Afghan-style mausoleum rising from the centre of an artificial lake in Sasaram. Often called the 'Taj Mahal of Bihar' — one of India's finest tombs.",loc:"Rohtas District (Sasaram)",entry:"₹25 Indians · ₹300 Foreign",travel:"160km from Patna",budget:2,lat:24.9468,lng:84.0293,ml:"22%",mt:"64%",badges:[{t:"Taj Mahal of Bihar",c:"bg-blue"},{t:"1545 AD",c:"bg-clay"}]},
+  {rank:16,name:"Golghar, Patna",tag:"Historical · Architecture",cat:"historical cultural",emoji:"🔵",bg:"linear-gradient(135deg,#1a5a8a,#0d3a5c)",desc:"An 18th-century British beehive granary with twin spiral staircases to the summit. Offers panoramic Ganga views. One of Bihar's most iconic and easily accessible monuments.",loc:"Patna city centre",entry:"₹10 Indians · ₹100 Foreign",travel:"In Patna city",budget:1,lat:25.6131,lng:85.1431,ml:"44%",mt:"38%",badges:[{t:"1786 AD",c:"bg-clay"},{t:"Ganges Views",c:"bg-leaf"}]},
+  {rank:17,name:"Mundeshwari Devi Temple",tag:"Spiritual · Ancient",cat:"spiritual historical",emoji:"🪬",bg:"linear-gradient(135deg,#8a2a2a,#c43a3a)",desc:"One of India's oldest temples, dating to 625 AD or earlier. This octagonal stone temple dedicated to Shiva-Parvati sits on Mundeshwari Hill with spectacular valley views.",loc:"Kaimur District",entry:"Free entry",travel:"180km from Patna",budget:1,lat:25.0380,lng:83.8780,ml:"14%",mt:"63%",badges:[{t:"Free Entry",c:"bg-leaf"},{t:"India's Oldest Temple",c:"bg-gold"}]},
+  {rank:18,name:"Lauria Nandangarh",tag:"Buddhist · Historical",cat:"historical spiritual",emoji:"🗿",bg:"linear-gradient(135deg,#3a5a3a,#5a8a5a)",desc:"A perfectly preserved Ashokan pillar (243 BC) standing 10 metres tall with a lion capital. Surrounded by ancient earthen stupas — one of Bihar's most peaceful heritage sites.",loc:"West Champaran",entry:"Free entry",travel:"230km from Patna",budget:1,lat:26.9924,lng:84.4046,ml:"28%",mt:"10%",badges:[{t:"Free Entry",c:"bg-leaf"},{t:"Ashoka Pillar 243 BC",c:"bg-gold"}]},
+  {rank:19,name:"Bhagalpur — Silk City",tag:"Cultural · Crafts",cat:"cultural",emoji:"🧵",bg:"linear-gradient(135deg,#7a4a2a,#c87a3a)",desc:"Famous for Tussar silk weaving — watch weavers create the world-renowned 'Bhagalpuri silk'. Also features Ganga dolphin boat tours and Vikramshila ruins nearby.",loc:"Bhagalpur District",entry:"Weaver villages free · Boat ₹100",travel:"250km from Patna",budget:2,lat:25.2425,lng:86.9842,ml:"78%",mt:"52%",badges:[{t:"Silk Capital",c:"bg-clay"},{t:"Ganga Dolphins",c:"bg-blue"}]},
+  {rank:20,name:"Sonepur Mela",tag:"Cultural · Festival",cat:"cultural",emoji:"🐘",bg:"linear-gradient(135deg,#5a3a8a,#8a5ac8)",desc:"Asia's largest cattle fair held every November at the Ganga-Gandak confluence. Elephants, horses, camels, folk performers and thousands of traders — a once-in-a-lifetime event.",loc:"Saran District",entry:"Free entry · November only",travel:"25km from Patna",budget:1,lat:25.7088,lng:85.1726,ml:"41%",mt:"32%",badges:[{t:"Asia's Biggest Fair",c:"bg-blue"},{t:"November Only",c:"bg-gold"}]}
+];
+
+let userLat=null,userLng=null,sortMode='rank',activeFilter='';
+
+function haversine(lat1,lng1,lat2,lng2){
+  const R=6371,d2r=Math.PI/180;
+  const dLat=(lat2-lat1)*d2r,dLng=(lng2-lng1)*d2r;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*d2r)*Math.cos(lat2*d2r)*Math.sin(dLng/2)**2;
+  return Math.round(R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
+}
+
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(p=>{
+    userLat=p.coords.latitude;userLng=p.coords.longitude;
+    document.getElementById('locName').textContent=userLat.toFixed(4)+'°N, '+userLng.toFixed(4)+'°E';
+    document.getElementById('locDetail').textContent='✅ GPS detected — distances calculated from your exact location';
+    document.getElementById('navLoc').textContent='📍 Location detected';
+    renderAll();
+  },()=>{
+    userLat=25.5135;userLng=86.1686;
+    document.getElementById('locName').textContent='Chak Parna, Bihar';
+    document.getElementById('locDetail').textContent='📍 Approximate location used (allow GPS for exact distances)';
+    document.getElementById('navLoc').textContent='📍 Chak Parna, Bihar';
+    renderAll();
+  });
+}else{renderAll();}
+
+function renderAll(){renderCards();renderNearest();renderMap();}
+
+function getFiltered(){
+  const s=document.getElementById('searchInput').value.toLowerCase();
+  const c=activeFilter;
+  return destinations.filter(d=>{
+    const ms=!s||(d.name+d.tag+d.desc).toLowerCase().includes(s);
+    const mc=!c||d.cat.includes(c);
+    return ms&&mc;
+  });
+}
+
+function renderCards(){
+  let data=getFiltered();
+  if(sortMode==='distance'&&userLat) data=[...data].sort((a,b)=>haversine(userLat,userLng,a.lat,a.lng)-haversine(userLat,userLng,b.lat,b.lng));
+  else if(sortMode==='budget') data=[...data].sort((a,b)=>a.budget-b.budget);
+  const grid=document.getElementById('cardsGrid');
+  document.getElementById('noResults').style.display=data.length?'none':'block';
+  grid.innerHTML=data.map(d=>{
+    const km=userLat?haversine(userLat,userLng,d.lat,d.lng):null;
+    const bdg=d.badges.map(b=>`<span class="badge ${b.c}">${b.t}</span>`).join('');
+    return`<div class="card" data-cat="${d.cat}" data-name="${d.name.toLowerCase()}">
+      <div class="card-img" style="background:${d.bg}">${d.emoji}
+        <div class="card-img-overlay"></div>
+        <div class="card-num">${String(d.rank).padStart(2,'0')}</div>
+        <div class="card-badges">${bdg}</div>
+        ${km!==null?`<div class="card-dist">📍 ${km} km from you</div>`:''}
+      </div>
+      <div class="card-body">
+        <div class="card-tag">${d.tag}</div>
+        <h3>${d.name}</h3>
+        <p>${d.desc}</p>
+        <div class="card-meta"><span>📍 ${d.loc}</span><span>🎟️ ${d.entry}</span><span>🚌 ${d.travel}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderNearest(){
+  if(!userLat)return;
+  document.getElementById('nearestStrip').style.display='block';
+  const top5=[...destinations].sort((a,b)=>haversine(userLat,userLng,a.lat,a.lng)-haversine(userLat,userLng,b.lat,b.lng)).slice(0,5);
+  document.getElementById('nearestList').innerHTML=top5.map(d=>{
+    const km=haversine(userLat,userLng,d.lat,d.lng);
+    return`<div class="near-pill" onclick="jumpDist()">${d.emoji} ${d.name} <span class="near-dist">${km}km</span></div>`;
+  }).join('');
+}
+
+function jumpDist(){sortMode='distance';document.querySelectorAll('.sort-bar button').forEach((b,i)=>b.classList.toggle('active',i===1));renderCards();document.getElementById('destinations').scrollIntoView({behavior:'smooth'});}
+
+function renderMap(){
+  // Bihar coords: lat 23.5–28, lng 83–88.5
+  const container=document.getElementById('mapPins');
+  let html=destinations.map(d=>`<div class="pin" style="left:${d.ml};top:${d.mt}"><div class="pin-dot"><div class="pin-inner">${d.emoji}</div></div><div class="pin-label">${d.name}</div></div>`).join('');
+  if(userLat){
+    const ml=((userLng-83)/(88.5-83)*100).toFixed(1)+'%';
+    const mt=((1-(userLat-23.5)/(28-23.5))*100).toFixed(1)+'%';
+    html+=`<div class="pin you-pin" style="left:${ml};top:${mt}"><div class="pin-dot user-pin"><div class="pin-inner">📍</div></div><div class="pin-label">You are here</div></div>`;
+  }
+  container.innerHTML=html;
+}
+
+function filterCards(){renderCards();}
+function setFilter(btn,cat){document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');activeFilter=cat;document.getElementById('categorySelect').value=cat;renderCards();}
+function sortCards(mode,btn){sortMode=mode;document.querySelectorAll('.sort-bar button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderCards();}
+</script>
+</body>
+</html>
